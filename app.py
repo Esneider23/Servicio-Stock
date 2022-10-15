@@ -67,4 +67,4 @@ def page_not_found(error):
 
 # the application is executed
 if __name__ == '__main__':
-    server.run(debug=True, port=4000)
+    server.run(debug=True)
