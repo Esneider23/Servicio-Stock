@@ -4,15 +4,15 @@ from flask import jsonify, request, json
 # the function that allows to list all vehicles in stock is created
 def stock(mysql):
     cursor = mysql.connection.cursor()
-    sql = "select v.name, su.name, s.selling_price, v.motor, v.gearbox, v.security " \
+    sql = "select s.idstock, v.name, su.name, s.selling_price, v.motor, v.gearbox, v.security " \
           "from stock s " \
           "inner join vehicle v on (s.name = v.id) inner join supplier su on (s.supplier = su.idsupplier)"
     cursor.execute(sql)
     data = cursor.fetchall()
     vehicles = []
     for fila in data:
-        vehicle = {'name': fila[0], 'supplier': fila[1], 'price': fila[2], 'motor': fila[3], 'gearbox': fila[4],
-                   'security': fila[5]}
+        vehicle = {'id': fila[0], 'name': fila[1], 'supplier': fila[2], 'price': fila[3], 'motor': fila[4],
+                   'gearbox': fila[5],'security': fila[6]}
         vehicles.append(vehicle)
     return jsonify({'vehicles': vehicles, 'message': 'Listed vehicles'})
 
