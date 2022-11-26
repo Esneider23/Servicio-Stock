@@ -1,5 +1,5 @@
 # we invoke the necessary libraries
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, jsonify
 # from config import config
 from flask_mysqldb import MySQL
 import controller
@@ -16,7 +16,7 @@ mysql = MySQL(server)
 
 
 # The route to enter the service is created.
-@server.get('/vehiculos')
+@server.get('/vehicles')
 def index():
     try:
         return controller.stock(mysql)
@@ -25,7 +25,7 @@ def index():
 
 
 # The path displaying unit information is created.
-@server.get('/vehiculos/<string:name>')
+@server.get('/vehicle/<string:name>')
 def get_vehicle(name):
     try:
        return controller.vehicle(mysql, name)
@@ -34,7 +34,7 @@ def get_vehicle(name):
 
 
 # The route to create a new vehicle is created.
-@server.post('/vehiculos')
+@server.post('/vehicle')
 def create_vehicle():
     try:
         return controller.create_vehicle(mysql)
@@ -61,9 +61,6 @@ def delete_stock(id):
 
 
 # A function is created to show when a page is not found.
-def page_not_found(error):
-    return render_template('404.html')
-
 
 # the application is executed
 if __name__ == '__main__':
