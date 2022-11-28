@@ -20,9 +20,7 @@ def stock(mysql):
 # the function allowing to list the information of a particular vehicle is created
 def vehicle(mysql, id):
     cursor = mysql.connection.cursor()
-    sql = "select v.id, v.name, su.name, s.selling_price, v.motor, v.gearbox, v.security, t.name, v.url from stock s " \
-          "inner join vehicle v on (s.name = v.id) inner join supplier su on (s.supplier = su.idsupplier) " \
-          "inner join type t on (v.type = t.idtype) where v.id = '{0}'".format(id)
+    sql = "select s.idstock, v.name, su.name, s.selling_price, v.motor, v.gearbox, v.security, t.name, v.url from stock s inner join vehicle v on (s.name = v.id) inner join supplier su on (s.supplier = su.idsupplier) inner join type t on (v.type = t.idtype) where s.idstock = '{0}'".format(id)
     cursor.execute(sql)
     data = cursor.fetchone()
     if data is not None:
