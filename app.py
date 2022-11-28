@@ -2,10 +2,14 @@
 from flask import Flask, jsonify
 # from config import config
 from flask_mysqldb import MySQL
+from flask_cors import CORS, cross_origin
 import controller
 
 # The access point is created
 server = Flask(__name__)
+
+#this allow recurser exchange
+CORS(server)
 
 # The connection point to the base is created.
 server.config['MYSQL_HOST'] = 'us-cdbr-east-06.cleardb.net'
@@ -16,6 +20,7 @@ mysql = MySQL(server)
 
 
 # The route to enter the service is created.
+@cross_origin
 @server.get('/vehicles')
 def index():
     try:
@@ -24,6 +29,7 @@ def index():
         return jsonify({'message': ex})
 
 
+@cross_origin
 # The path displaying unit information is created.
 @server.get('/vehicle/<string:name>')
 def get_vehicle(name):
@@ -42,6 +48,7 @@ def create_vehicle():
         return jsonify({'message': ex})
 
 
+@cross_origin
 # The route to create a new stock is created.
 @server.post('/stock')
 def create_stock():
@@ -51,6 +58,7 @@ def create_stock():
         return jsonify({'message': ex})
 
 
+@cross_origin
 # The route is created to remove the stock
 @server.delete("/stock/<string:id>")
 def delete_stock(id):
