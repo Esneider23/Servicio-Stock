@@ -20,12 +20,12 @@ def stock(mysql):
 # the function allowing to list the information of a particular vehicle is created
 def vehicle(mysql, id):
     cursor = mysql.connection.cursor()
-    sql = "select s.idstock, v.name, su.name, s.selling_price, v.motor, v.gearbox, v.security, t.name, v.url from stock s inner join vehicle v on (s.name = v.id) inner join supplier su on (s.supplier = su.idsupplier) inner join type t on (v.type = t.idtype) where s.idstock = '{0}'".format(id)
+    sql = "select s.idstock, v.name, su.name, s.selling_price, v.motor, v.gearbox, v.security, t.name, v.url, v.description, v.data_sheet from stock s inner join vehicle v on (s.name = v.id) inner join supplier su on (s.supplier = su.idsupplier) inner join type t on (v.type = t.idtype) where s.idstock = '{0}'".format(id)
     cursor.execute(sql)
     data = cursor.fetchone()
     if data is not None:
         vehicle = {'name': data[1], 'supplier': data[2], 'price': data[3], 'motor': data[4], 'gearbox': data[5],
-                   'security': data[6], 'type': data[7], 'image': data[8]}
+                   'security': data[6], 'type': data[7], 'image': data[8], 'description': data[9], 'data_sheet': data[10]}
         return jsonify({'vehicle': vehicle, 'message': 'Information on the vehicle found'})
     else:
         return jsonify({'message': 'Vehicle not found'})
