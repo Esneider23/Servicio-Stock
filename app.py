@@ -31,7 +31,7 @@ def index():
 
 @cross_origin
 # The path displaying unit information is created.
-@server.get('/vehicle/<string:id>')
+@server.get('/vehicle/<int:id>')
 def get_vehicle(id):
     try:
        return controller.vehicle(mysql, id)
