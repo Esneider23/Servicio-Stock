@@ -31,10 +31,10 @@ def index():
 
 @cross_origin
 # The path displaying unit information is created.
-@server.get('/vehicle/<string:name>')
-def get_vehicle(name):
+@server.get('/vehicle/<string:id>')
+def get_vehicle(id):
     try:
-       return controller.vehicle(mysql, name)
+       return controller.vehicle(mysql, id)
     except Exception as ex:
         return jsonify({'message': ex})
 
