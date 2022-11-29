@@ -24,7 +24,7 @@ def vehicle(mysql, id):
     cursor.execute(sql)
     data = cursor.fetchone()
     if data is not None:
-        vehicle = {'name': data[1], 'supplier': data[2], 'price': data[3], 'motor': data[4], 'gearbox': data[5],
+        vehicle = {'id': data[0], 'name': data[1], 'supplier': data[2], 'price': data[3], 'motor': data[4], 'gearbox': data[5],
                    'security': data[6], 'type': data[7], 'image': data[8], 'description': data[9], 'data_sheet': data[10]}
         return jsonify({'vehicle': vehicle, 'message': 'Information on the vehicle found'})
     else:
