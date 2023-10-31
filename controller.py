@@ -33,32 +33,32 @@ def vehicle(connection, id):
 
 
 # the function allowing the creation of a new vehicle is created
-def create_vehicle(mysql):
-    cursor = mysql.connection.cursor()
+def create_vehicle(connection):
+    cursor = connection.cursor()
     sql = """insert into vehicle(name, motor, gearbox, security, type) values ('{0}', '{1}', '{2}',
             '{3}', '{4}') """.format(request.json['name'], request.json['motor'], request.json['gearbox'],
                                      request.json['security'], request.json['type'])
     cursor.execute(sql)
-    mysql.connection.commit()
+    connection.commit()
     return jsonify({'message': 'Vehicle created'})
 
 
-# the function is created that allows a vehicle to be removed from stock
+
 # the function that allows you to create a new stock is created
-def create_stock(mysql):
-    cursor = mysql.connection.cursor()
+def create_stock(connection):
+    cursor = connection.cursor()
     sql = """insert into stock (name, supplier, selling_price, quantity) 
            values ('{0}', '{1}', '{2}', '{3}')""".format(request.json['name'], request.json['supplier'],
                                                          request.json['selling_price'], request.json['quantity'])
     cursor.execute(sql)
-    mysql.connection.commit()
+    connection.commit()
     return jsonify({'message': 'Stock update'})
 
 
 # the function is created that allows a vehicle to be removed from stock
-def delete_stock(mysql, id):
+def delete_stock(connection, id):
     sql = "delete from stock where idstock = '{0}'".format(id)
-    cursor = mysql.connection.cursor()
+    cursor = connection.cursor()
     cursor.execute(sql)
-    mysql.connection.commit()
+    connection.commit()
     return jsonify({'message': "The stock was successfully removed"})
