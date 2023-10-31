@@ -1,9 +1,9 @@
 # we invoke the necessary libraries
 from flask import Flask, jsonify
 # from config import config
-from flask_mysqldb import MySQL
 from flask_cors import CORS, cross_origin
 import controller
+from db import get_db_connection
 
 # The access point is created
 server = Flask(__name__)
@@ -11,30 +11,30 @@ server = Flask(__name__)
 #this allow recurser exchange
 CORS(server)
 
-# The connection point to the base is created.
-server.config['MYSQL_HOST'] = 'us-cdbr-east-06.cleardb.net'
-server.config['MYSQL_USER'] = 'bee0e9755133d2'
-server.config['MYSQL_PASSWORD'] = 'f3e9360a'
-server.config['MYSQL_DB'] = 'heroku_23edc9681868d22'
-mysql = MySQL(server)
+
 
 
 # The route to enter the service is created.
 @cross_origin
 @server.get('/vehicles')
 def index():
-    try:
-        return controller.stock(mysql)
-    except Exception as ex:
-        return jsonify({'message': ex})
+    config = get_db_connection()
+    if config:
+        try:
+            return controller.stock(config)
+        except Exception as ex:
+                return jsonify({'message': ex})
+    else:
+        return jsonify({'message': 'Error connecting to the database'})
 
 
 @cross_origin
 # The path displaying unit information is created.
 @server.get('/vehicle/<string:id>')
 def get_vehicle(id):
+    config = get_db_connection()
     try:
-       return controller.vehicle(mysql, id)
+       return controller.vehicle(config, id)
     except Exception as ex:
         return jsonify({'message': ex})
 
@@ -42,8 +42,9 @@ def get_vehicle(id):
 # The route to create a new vehicle is created.
 @server.post('/vehicle')
 def create_vehicle():
+    config = get_db_connection()
     try:
-        return controller.create_vehicle(mysql)
+        return controller.create_vehicle(config)
     except Exception as ex:
         return jsonify({'message': ex})
 
@@ -52,8 +53,9 @@ def create_vehicle():
 # The route to create a new stock is created.
 @server.post('/stock')
 def create_stock():
+    config = get_db_connection()
     try:
-        return controller.create_stock(mysql)
+        return controller.create_stock(config)
     except Exception as ex:
         return jsonify({'message': ex})
 
@@ -62,8 +64,9 @@ def create_stock():
 # The route is created to remove the stock
 @server.delete("/stock/<string:id>")
 def delete_stock(id):
+    config = get_db_connection()
     try:
-        return controller.delete_stock(mysql, id)
+        return controller.delete_stock(config, id)
     except Exception as ex:
         return jsonify({'message': ex})
 

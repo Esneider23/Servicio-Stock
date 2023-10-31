@@ -2,8 +2,8 @@ from flask import jsonify, request, json
 
 
 # the function that allows to list all vehicles in stock is created
-def stock(mysql):
-    cursor = mysql.connection.cursor()
+def stock(connection):
+    cursor = connection.cursor()
     sql = "select s.idstock, v.name, su.name, s.selling_price, v.motor, v.gearbox, v.security, t.name, v.url " \
           "from stock s inner join vehicle v on (s.name = v.id) inner join supplier su on (s.supplier = su.idsupplier)"\
           " inner join type t on (v.type = t.idtype)"
@@ -14,12 +14,13 @@ def stock(mysql):
         vehicle = {'id': fila[0], 'name': fila[1], 'supplier': fila[2], 'price': fila[3], 'motor': fila[4],
                    'gearbox': fila[5], 'security': fila[6], 'type': fila[7], 'image': fila[8]}
         vehicles.append(vehicle)
+    cursor.close()
     return jsonify({'vehicles': vehicles, 'message': 'Listed vehicles'})
 
 
 # the function allowing to list the information of a particular vehicle is created
-def vehicle(mysql, id):
-    cursor = mysql.connection.cursor()
+def vehicle(connection, id):
+    cursor = connection.cursor()
     sql = "select s.idstock, v.name, su.name, s.selling_price, v.motor, v.gearbox, v.security, t.name, v.url, v.description, v.data_sheet from stock s inner join vehicle v on (s.name = v.id) inner join supplier su on (s.supplier = su.idsupplier) inner join type t on (v.type = t.idtype) where s.idstock = '{0}'".format(id)
     cursor.execute(sql)
     data = cursor.fetchone()
