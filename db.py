@@ -4,8 +4,8 @@ import psycopg2
 config = {
     'dbname': 'citus',
     'user': 'citus',
-    'password': 'EgP230103.103',
-    'host': 'c-database-proyect.gyma6yjccm42l2.postgres.cosmos.azure.com',
+    'password': 'klmdvklsnknskkfehwi2r3edvcdnowqch90b-au3chduiynicsh',
+    'host': 'c-database-motorshop.jvspw4ebch4w4x.postgres.cosmos.azure.com',
     'port': '5432',
     'sslmode': 'require'
 }
